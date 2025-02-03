@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Style Transformer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        select, input[type="submit"] {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .result {
+            background: #e9ffe9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+        .flash {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Email Style Transformer</h1>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flash">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <form method="POST">
+        <label for="email_content">Email Content:</label><br>
+        <textarea id="email_content" name="email_content" placeholder="Enter your email here...">{{ email_content if email_content else '' }}</textarea><br><br>
+        
+        <label for="target_style">Select Style:</label><br>
+        <select id="target_style" name="target_style">
+            <option value="">--Select a style--</option>
+            <option value="formal" {% if target_style == "formal" %}selected{% endif %}>Formal</option>
+            <option value="friendly" {% if target_style == "friendly" %}selected{% endif %}>Friendly</option>
+            <option value="casual" {% if target_style == "casual" %}selected{% endif %}>Casual</option>
+            <option value="professional" {% if target_style == "professional" %}selected{% endif %}>Professional</option>
+        </select><br><br>
+        
+        <input type="submit" value="Transform Email">
+    </form>
+    
+    {% if result %}
+    <h2>Transformed Email:</h2>
+    <div class="result">
+        {{ result }}
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>
+
